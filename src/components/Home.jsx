@@ -7,7 +7,7 @@ const HomeComp = (props) => {
    return (
       <>
          <section>
-               <p>Hola</p>
+               <p>Hola XD</p>
           </section>
       </>
     );
