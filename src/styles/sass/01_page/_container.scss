@@ -1,13 +1,12 @@
 @import "../00_base/_extends.scss";
 @import "../00_base/_mixins.scss";
-@import "../00_base/_functions.scss";
 @import "../00_base/_colors.scss";
 @import "../00_base/_typography.scss";
 @import "../00_base/_root.scss";
 
 .container-trello {
     @extend %display-grid;
-    @include grid-columns(5fr);
+    @include grid-columns(1fr 1fr 1fr auto auto);
     @include grid-rows(auto);
     grid-column-gap: 2px;
     height: auto;
