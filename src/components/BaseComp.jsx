@@ -7,7 +7,7 @@ const BaseComp = (props) =>
 
     return (
     <>
-      <a href={githubLink}>Aquí</a> puedes ver mi perfil de GitHub.
+      <a href={githubLink}>Aquí</a> puedes ver mi perfil de GitHub
     </>  
     )
 }
