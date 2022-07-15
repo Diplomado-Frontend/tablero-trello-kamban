@@ -13,6 +13,7 @@ const Card = ({ item }) =>
            <div className="card-item" style={Object.assign({}, { backgroundColor })}>
             <h4>{item.name}</h4>
           </div>
+          
         </>  
     )
 }
