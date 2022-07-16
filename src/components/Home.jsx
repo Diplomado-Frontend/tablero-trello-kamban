@@ -27,7 +27,7 @@ const HomeComp = (props) => {
       <>
          <section className="container-trello">
          <div className="todo item">
-            #TODO YHON CRUZ
+            #TODO
                  
             <ReactSortable
           list={firstGroup}
