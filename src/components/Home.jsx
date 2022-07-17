@@ -43,6 +43,8 @@ const HomeComp = (props) => {
         </ReactSortable>
         </div>
         <div className="inProgress item">
+            #IN PROGRESS
+
         <ReactSortable
           list={secondGroup}
           setList={setSecondGroup}
