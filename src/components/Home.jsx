@@ -2,26 +2,18 @@
 import React, { useState } from "react";
 import Card from './Card';
 import { ReactSortable } from "react-sortablejs";
+import { infoCards } from '../data/infoCards';
 import "../styles/sass/01_page/_container.scss";
 
 const HomeComp = (props) => {
 
-   const [firstGroup, setFirstGroup] = useState([
-      { name: "file1", id: "1", type: "file" },
-      { name: "file2", id: "2", type: "file" },
-      { name: "file3", id: "3", type: "file" },
-      { name: "file4", id: "4", type: "file" }
-    ]);
-    const [secondGroup, setSecondGroup] = useState([
-      { name: "image1", id: "1a", type: "img" }
-    ]);
-    const [thirdGroup, setThirdGroup] = useState([
-      { name: "doc1", id: "1b", type: "doc" },
-      { name: "doc2", id: "2b", type: "doc" },
-      { name: "doc3", id: "3b", type: "doc" },
-      { name: "doc4", id: "4b", type: "doc" },
-      { name: "doc5", id: "5b", type: "doc" }
-    ]);
+  let defaultFirstGroup = infoCards.slice(0, 3);
+  let defaultSecondGroup = infoCards.slice(4, 6);
+  let defaultThirdGroup = infoCards.slice(7, 9);
+
+    const [firstGroup, setFirstGroup] = useState(defaultFirstGroup);
+    const [secondGroup, setSecondGroup] = useState(defaultSecondGroup);
+    const [thirdGroup, setThirdGroup] = useState(defaultThirdGroup);
 
    return (
       <>
