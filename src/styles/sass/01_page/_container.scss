@@ -8,7 +8,7 @@
     @extend %display-grid;
     @include grid-columns(1fr 1fr 1fr auto auto);
     @include grid-rows(auto);
-    grid-column-gap: 2px;
+    grid-column-gap: 10px;
     height: auto;
     grid-template-areas:
       "todo inProgress done . .";
