@@ -10,8 +10,6 @@ import "../styles/sass/01_page/_container.scss";
 import "../styles/sass/01_page/_addList.scss";
 
 
-
-
 const HomeComp = (props) => {
 
   let defaultFirstGroup = infoCards.slice(0, 3);
@@ -22,37 +20,49 @@ const HomeComp = (props) => {
     const [secondGroup, setSecondGroup] = useState(defaultSecondGroup);
     const [thirdGroup, setThirdGroup] = useState(defaultThirdGroup);
 
-
     const [showAddList, setShowAddList ] = useState(false);
 
-    const initialState = [ ...firstGroup, ...secondGroup, ...thirdGroup ];
+    let columnList = [{
+        cardGroup: firstGroup,
+        listName: 'ToDo',
+        _id: 1
+      }, 
+      {
+        cardGroup: secondGroup,
+        listName: 'In progress',
+        _id: 2
+      },
+      {
+        cardGroup: thirdGroup,
+        listName: 'Done',
+        _id: 3
+      }
+    ];
+
+    const initialState = { 'itemList': [ ...firstGroup, ...secondGroup, ...thirdGroup ],
+                           'columnList': columnList};
 
     const reducer = (state, action) => {
+      debugger;
       switch (action.type) {
-        case "ADD_ITEM_LIST":
-
+        case "ADD_ITEM_CARD":
           return {
             ...state,
             itemList: [...state.itemList, action.payload],
           };
-          // return state.map((todo) => {
-          //   if (todo.id === action.id) {
-          //     return { ...todo };
-          //   } else {
-          //     return todo;
-          //   }
-          // });
+        case "ADD_NEW_COLUMN": 
+          return {
+            ...state,
+            columnList: [...state.columnList, action.payload],
+          };
         default:
           return state;
       }
     };
 
-    const [infoCards1, dispatch] = useReducer(reducer, initialState);
-debugger;
-    const showAddListHandler = () => {
-    
-      // let element = document.getElementsByClassName("add-another-list");
-      //  element[0].classList.add("add-another_list-wrapper");
+    const [infoTrello, dispatch] = useReducer(reducer, initialState);
+
+    const showAddListHandler = () => {   
       setShowAddList(true);
     }
 
@@ -60,10 +70,14 @@ debugger;
       setShowAddList(false);
     }
 
-    const handleAddItemList = (payload) => {
+    const handleAddNewList = (name) => {   
       debugger;
-      dispatch({ type: "ADD_ITEM_LIST", payload });
-    };
+      let payload = {
+          cardGroup: [],
+          listName: name
+      }
+      dispatch({ type: "ADD_NEW_COLUMN", payload });
+    }
 
    return (
       <>
@@ -71,10 +85,10 @@ debugger;
 
       <section className="container-trello">
 
-           <List currentGroup={firstGroup} listName="ToDo" props={infoCards1} />
-           <List currentGroup={secondGroup} listName="In progress" />
-           <List currentGroup={thirdGroup} listName="Done" />
-
+        { infoTrello.columnList.map((column)=>(
+          <List currentGroup={column.cardGroup} listName={column.listName} />
+        ))}   
+         
       </section>
 
         <section className="container-addLt">
@@ -85,15 +99,14 @@ debugger;
 
                      <div className="add-list">
 
-                      { showAddList && <AddList /> }               
+                      { showAddList && <AddList onAddNewList={handleAddNewList}/> }               
                       { showAddList && 
                           <div onClick={closeAddListHadler}>    
                               <i class='fas fa-times-circle'></i>
                         </div>
                       } 
  
-                     </div>
-                                
+                     </div>                              
            </div>
         </section>
 
