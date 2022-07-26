@@ -4,16 +4,54 @@
 @import "../00_base/_typography.scss";
 @import "../00_base/_root.scss";
 
+.wrapper-container {
+  @extend %display-grid;
+  @include grid-columns(1fr 25%);
+  grid-column-gap: 10px;
+  height: auto;
+  grid-template-areas:
+      "container-trello container-addLt";
+}
+
+.container-addLt {
+  @extend %display-grid;
+  @include grid-columns(auto);
+  grid-column-gap: 10px;
+  height: auto;
+  grid-template-areas:
+  "add-another-list";
+}
+
 .container-trello {
     @extend %display-grid;
-    @include grid-columns(1fr 1fr 1fr auto auto);
+    @include grid-columns(auto);
     @include grid-rows(auto);
     grid-column-gap: 10px;
     height: auto;
     grid-template-areas:
-      "todo inProgress done . .";
+      "todo inProgress done . . . ";
     background-color: $trello-gray-200;
     font-family: $roboto-font;
+  }
+
+    .add-another-list {
+      @include set-grid-area(add-another-list);
+      text-align: center;
+      height: 65px;
+      cursor: pointer;
+    }
+
+    .add-another-list:hover {
+      background-color: #00000029;
+    }
+
+    .add-another_list-wrapper {
+      background-color: #ebecf0;
+      border-radius: 3px;
+      height: auto;
+      min-height: 32px;
+      padding: 4px;
+      transition: background 85ms ease-in,opacity 40ms ease-in,border-color 85ms ease-in;
   }
 
   .todo {
@@ -30,9 +68,10 @@
     @include set-grid-area(done);
     text-align: center;
   }
-  
+
+
   .item {
-    background-color: violet;
+    background-color: lightgray;
     border: 1px solid blue;
   }
   

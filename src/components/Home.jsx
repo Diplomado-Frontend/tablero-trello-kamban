@@ -1,9 +1,16 @@
 
-import React, { useState } from "react";
+import React, { useState, useReducer } from "react";
 import Card from './Card';
+import AnotherList from './AnotherList';
+import AddList from './AddList';
+import List from './List';
 import { ReactSortable } from "react-sortablejs";
 import { infoCards } from '../data/infoCards';
 import "../styles/sass/01_page/_container.scss";
+import "../styles/sass/01_page/_addList.scss";
+
+
+
 
 const HomeComp = (props) => {
 
@@ -15,59 +22,83 @@ const HomeComp = (props) => {
     const [secondGroup, setSecondGroup] = useState(defaultSecondGroup);
     const [thirdGroup, setThirdGroup] = useState(defaultThirdGroup);
 
+
+    const [showAddList, setShowAddList ] = useState(false);
+
+    const initialState = [ ...firstGroup, ...secondGroup, ...thirdGroup ];
+
+    const reducer = (state, action) => {
+      switch (action.type) {
+        case "ADD_ITEM_LIST":
+
+          return {
+            ...state,
+            itemList: [...state.itemList, action.payload],
+          };
+          // return state.map((todo) => {
+          //   if (todo.id === action.id) {
+          //     return { ...todo };
+          //   } else {
+          //     return todo;
+          //   }
+          // });
+        default:
+          return state;
+      }
+    };
+
+    const [infoCards1, dispatch] = useReducer(reducer, initialState);
+debugger;
+    const showAddListHandler = () => {
+    
+      // let element = document.getElementsByClassName("add-another-list");
+      //  element[0].classList.add("add-another_list-wrapper");
+      setShowAddList(true);
+    }
+
+    const closeAddListHadler = () => {   
+      setShowAddList(false);
+    }
+
+    const handleAddItemList = (payload) => {
+      debugger;
+      dispatch({ type: "ADD_ITEM_LIST", payload });
+    };
+
    return (
       <>
-         <section className="container-trello">
-         <div className="todo item">
-            #TODO
-                 
-            <ReactSortable
-          list={firstGroup}
-          setList={setFirstGroup}
-          animation={150}
-          group="cards"
-          onChange={(order, sortable, evt) => {}}
-          onEnd={evt => {}}
-        >
-          {firstGroup.map(item => (
-            <Card key={item.id} item={item} />
-          ))}
-        </ReactSortable>
-        </div>
-        <div className="inProgress item">
-            #IN PROGRESS
+      <section className="wrapper-container">
 
-        <ReactSortable
-          list={secondGroup}
-          setList={setSecondGroup}
-          animation={150}
-          group="cards"
-          onChange={(order, sortable, evt) => {}}
-          onEnd={evt => {}}
-        >
-          {secondGroup.map(item => (
-            <Card key={item.id} item={item} />
-          ))}
-        </ReactSortable>
-        </div>
-        <div className="done item">
-            #DONE  
+      <section className="container-trello">
 
-            <ReactSortable
-          list={thirdGroup}
-          setList={setThirdGroup}
-          animation={150}
-          group="cards"
-          onChange={(order, sortable, evt) => {}}
-          onEnd={evt => {}}
-        >
-          {thirdGroup.map(item => (
-            <Card key={item.id} item={item} />
-          ))}
-        </ReactSortable>
-        </div>
+           <List currentGroup={firstGroup} listName="ToDo" props={infoCards1} />
+           <List currentGroup={secondGroup} listName="In progress" />
+           <List currentGroup={thirdGroup} listName="Done" />
 
+      </section>
+
+        <section className="container-addLt">
+          <div className="item add-another-list" >
+                    <div onClick={showAddListHandler} >
+                     { !showAddList && <AnotherList/> } 
+                     </div>
+
+                     <div className="add-list">
+
+                      { showAddList && <AddList /> }               
+                      { showAddList && 
+                          <div onClick={closeAddListHadler}>    
+                              <i class='fas fa-times-circle'></i>
+                        </div>
+                      } 
+ 
+                     </div>
+                                
+           </div>
         </section>
+
+      </section>
+ 
       </>
     );
   }
