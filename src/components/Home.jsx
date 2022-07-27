@@ -1,10 +1,8 @@
 
 import React, { useState, useReducer } from "react";
-import Card from './Card';
 import AnotherList from './AnotherList';
 import AddList from './AddList';
 import List from './List';
-import { ReactSortable } from "react-sortablejs";
 import { infoCards } from '../data/infoCards';
 import "../styles/sass/01_page/_container.scss";
 import "../styles/sass/01_page/_addList.scss";
@@ -71,7 +69,6 @@ const HomeComp = (props) => {
     }
 
     const handleAddNewList = (name) => {   
-      debugger;
       let payload = {
           cardGroup: [],
           listName: name
