@@ -8,9 +8,9 @@
   @extend %display-grid;
   @include grid-columns(1fr 25%);
   grid-column-gap: 10px;
-  height: auto;
   grid-template-areas:
       "container-trello container-addLt";
+  // background-image: url('../../../assets/background-image.jpg');
 }
 
 .container-addLt {
@@ -25,24 +25,29 @@
 .container-trello {
     @extend %display-grid;
     @include grid-columns(auto);
-    @include grid-rows(auto);
     grid-column-gap: 10px;
-    height: auto;
     grid-template-areas:
-      "todo inProgress done . . . ";
-    background-color: $trello-gray-200;
+      "todo inProgress done . . .";
     font-family: $roboto-font;
   }
 
     .add-another-list {
       @include set-grid-area(add-another-list);
       text-align: center;
-      height: 65px;
+      height: fit-content;
       cursor: pointer;
+      p {
+          background-color: lightgray;
+          border: 1px solid blue;
+          padding: 7px;
+          margin: 10px 10px;
+          border-radius: 10px;
+      }
     }
 
-    .add-another-list:hover {
-      background-color: #00000029;
+    .add-another-list p:hover {
+      background-color: #091e4214;
+      color: #172b4d;
     }
 
     .add-another_list-wrapper {
@@ -73,5 +78,6 @@
   .item {
     background-color: lightgray;
     border: 1px solid blue;
+    height: fit-content;
   }
   

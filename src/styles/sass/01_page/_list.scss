@@ -1,0 +1,19 @@
+
+  .card-list {
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    p {
+        background-color: lightgray;
+        border: 1px solid blue;
+        padding: 7px;
+        margin: 10px 10px;
+        border-radius: 10px;
+    }
+  }
+
+  .card-list p:hover{
+    background-color: #091e4214;
+    color: #172b4d;
+  }
+
