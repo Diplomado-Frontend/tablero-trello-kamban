@@ -37,29 +37,26 @@ const HomeComp = (props) => {
       }
     ];
 
-    const initialState = { 'itemList': [ ...firstGroup, ...secondGroup, ...thirdGroup ],
-                           'columnList': columnList};
+    const initialState = { 'columnList': columnList };
 
     const reducer = (state, action) => {
-      debugger;
       switch (action.type) {
-        case "ADD_ITEM_CARD":
+        case "ADD_CARD_CARD":
           return {
             ...state,
-            itemList: [...state.itemList, action.payload],
+            columnList: [ ...state.columnList, ...action.payload],
           };
         case "ADD_NEW_COLUMN": 
           return {
             ...state,
-            columnList: [...state.columnList, action.payload],
+            columnList: [...state.columnList, action.payload],         
           };
         default:
           return state;
-      }
+      }   
     };
 
     const [infoTrello, dispatch] = useReducer(reducer, initialState);
-
     const showAddListHandler = () => {   
       setShowAddList(true);
     }
@@ -76,36 +73,60 @@ const HomeComp = (props) => {
       dispatch({ type: "ADD_NEW_COLUMN", payload });
     }
 
+    const handleAddNewCard = (cardName, listName) => {
+
+      let obj = JSON.parse(JSON.stringify(infoTrello.columnList));
+      let payload =  obj.filter((item)=>{  return item.listName === listName });
+
+      payload[0].cardGroup.push({
+                  name: cardName,
+                  id: "1a", 
+                  type: "img", 
+                  description: "description 8",
+                  chosen: false,
+                  selected: false
+                });
+
+                debugger;
+
+      dispatch({ type: "ADD_NEW_CARD", payload });
+
+    }
+
    return (
       <>
       <section className="wrapper-container">
 
-      <section className="container-trello">
+          <section className="container-trello">
 
-        { infoTrello.columnList.map((column)=>(
-          <List currentGroup={column.cardGroup} listName={column.listName} />
-        ))}   
-         
-      </section>
+              { infoTrello.columnList.map((column)=>(
+                
+                    <List key={column._id}
+                          currentGroup={column.cardGroup} 
+                          onAddNewCard={handleAddNewCard} 
+                          listName={column.listName} />
+              ))}   
+            
+          </section>
 
-        <section className="container-addLt">
-          <div className="item add-another-list" >
-                    <div onClick={showAddListHandler} >
-                     { !showAddList && <AnotherList/> } 
-                     </div>
+          <section className="container-addLt">
+            <div className="item add-another-list" >
+                      <div onClick={showAddListHandler} >
+                      { !showAddList && <AnotherList/> } 
+                      </div>
 
-                     <div className="add-list">
+                      <div className="add-list">
 
-                      { showAddList && <AddList onAddNewList={handleAddNewList}/> }               
-                      { showAddList && 
-                          <div onClick={closeAddListHadler}>    
-                              <i class='fas fa-times-circle'></i>
-                        </div>
-                      } 
- 
-                     </div>                              
-           </div>
-        </section>
+                        { showAddList && <AddList onAddNewList={handleAddNewList}/> }               
+                        { showAddList && 
+                            <div onClick={closeAddListHadler}>    
+                                <i class='fas fa-times-circle'></i>
+                          </div>
+                        } 
+  
+                      </div>                              
+            </div>
+          </section>
 
       </section>
  

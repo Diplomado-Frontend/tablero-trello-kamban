@@ -3,7 +3,7 @@ import React from "react";
 
 const AddList = (props) => 
 {
-    const addList = () => {
+    const addListHandler = () => {
       let ltTittleName = document.getElementById('addListTitle').value;
       props.onAddNewList(ltTittleName);
     }
@@ -12,7 +12,7 @@ const AddList = (props) =>
     <>
       <input id="addListTitle"></input>
       <br/>
-       <button onClick={addList}>Add list</button>
+       <button onClick={addListHandler}>Add list</button>
     </>  
     )
 }
