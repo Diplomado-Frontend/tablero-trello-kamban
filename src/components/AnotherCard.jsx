@@ -1,18 +1,15 @@
- 
 import React from "react";
 
-const AnotherCard = (props) => 
-{
-    const { showAddCardHandler } = props;
+const AnotherCard = (props) => {
+  const { showAddCardHandler } = props;
 
-    return (
+  return (
     <>
-    <div handleClick={showAddCardHandler}>
-        <p>+ Add card</p> 
-    </div>
-     
-    </>  
-    )
-}
+      <div handleClick={showAddCardHandler}>
+        <p>+ Add card</p>
+      </div>
+    </>
+  );
+};
 
 export default AnotherCard;

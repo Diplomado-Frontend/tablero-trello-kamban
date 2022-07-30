@@ -1,15 +1,14 @@
-import React, { useState } from 'react';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
+import React, { useState } from "react";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
 
 const FormDialog = (props) => {
-
-  const [ open, setOpen ] = useState(props.open);
+  const [open, setOpen] = useState(props.open);
 
   const handleClose = () => {
     setOpen(false);
@@ -20,10 +19,8 @@ const FormDialog = (props) => {
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>{props.title}</DialogTitle>
         <DialogContent>
-          <DialogContentText>
-           Please set card's information
-          </DialogContentText>
-          
+          <DialogContentText>Please set card's information</DialogContentText>
+
           <TextField
             autoFocus
             margin="dense"
@@ -53,6 +50,6 @@ const FormDialog = (props) => {
       </Dialog>
     </div>
   );
-}
+};
 
 export default FormDialog;
