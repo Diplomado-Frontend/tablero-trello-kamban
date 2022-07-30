@@ -2,75 +2,52 @@ import React, { useState, useReducer, useEffect } from "react";
 import AnotherList from "./AnotherList";
 import AddList from "./AddList";
 import List from "./List";
-import { infoCards } from "../data/infoCards";
+import getCardsData from "../Data/getData";
 import "../styles/sass/01_page/_container.scss";
 import "../styles/sass/01_page/_addList.scss";
 
 const HomeComp = (props) => {
-  const ADD_CARD = "ADD_NEW_CARD";
-  const ADD_COLUMN = "ADD_NEW_COLUMN";
 
-  let defaultFirstGroup = infoCards.slice(0, 3);
-  let defaultSecondGroup = infoCards.slice(4, 6);
-  let defaultThirdGroup = infoCards.slice(7, 9);
+  const [ initialState, setInitialState ]  = useState('');
 
-  const [firstGroup, setFirstGroup] = useState(defaultFirstGroup);
-  const [secondGroup, setSecondGroup] = useState(defaultSecondGroup);
-  const [thirdGroup, setThirdGroup] = useState(defaultThirdGroup);
+  useEffect(()=>{
+
+    const url = 'http://localhost:3000/api/cardsInfo';
+    const getData = async () => {
+      try {
+
+        const response = await fetch(url);
+        const json = await response.json();
+
+        let columnList = [
+          {
+            cardGroup: json.infoCards.slice(0, 3),
+            listName: "ToDo",
+            _id: Math.floor(Math.random() * 100000).toString(),
+          },
+          {
+            cardGroup: json.infoCards.slice(4, 6),
+            listName: "In progress",
+            _id: Math.floor(Math.random() * 100000).toString(),
+          },
+          {
+            cardGroup: json.infoCards.slice(7, 9),
+            listName: "Done",
+            _id: Math.floor(Math.random() * 100000).toString(),
+          },
+        ];
+
+        setInitialState(columnList);
+
+      } catch (error) {
+        console.log("error", error);
+      }   
+    }
+
+    getData();
+  }, []);
 
   const [showAddList, setShowAddList] = useState(false);
-
-  let columnList = [
-    {
-      cardGroup: firstGroup,
-      listName: "ToDo",
-      _id: Math.floor(Math.random() * 100000).toString(),
-    },
-    {
-      cardGroup: secondGroup,
-      listName: "In progress",
-      _id: Math.floor(Math.random() * 100000).toString(),
-    },
-    {
-      cardGroup: thirdGroup,
-      listName: "Done",
-      _id: Math.floor(Math.random() * 100000).toString(),
-    },
-  ];
-
-  const initialState = { columnList: columnList };
-
-  const reducer = (state, action) => {
-    // state.columnList.map(x => {
-    //   if(x.listName === 'Done'){
-    //     debugger;
-    //     return x.cardGroup.push(action.payload);
-    //   }
-    // });
-
-    switch (action.type) {
-      case ADD_CARD:
-        return {
-          ...state,
-          columnList: state.columnList.map((cardG) => {
-            return cardG.listName === action.payload[0].listName
-              ? {
-                  ...action.payload[0],
-                }
-              : cardG;
-          }),
-        };
-      case ADD_COLUMN:
-        return {
-          ...state,
-          columnList: [...state.columnList, action.payload],
-        };
-      default:
-        return state;
-    }
-  };
-
-  const [infoTrello, dispatch] = useReducer(reducer, initialState);
 
   const showAddListHandler = () => {
     setShowAddList(true);
@@ -85,33 +62,38 @@ const HomeComp = (props) => {
       cardGroup: [],
       listName: name,
     };
-    dispatch({ type: ADD_COLUMN, payload });
+
+    setInitialState([...initialState, payload])
+
   };
 
   const handleAddNewCard = (cardName, listName) => {
-    let obj = JSON.parse(JSON.stringify(infoTrello.columnList));
-    let payload = obj.filter((item) => {
-      return item.listName === listName;
-    });
+ 
+   const newCard = [{
+        name: cardName,
+        listName: listName,
+        id: Math.floor(Math.random() * 100000).toString(),
+        type: "img",
+        description: "description XD",
+      }]
 
-    payload[0].cardGroup.push({
-      name: cardName,
-      listName: listName,
-      id: Math.floor(Math.random() * 100000).toString(),
-      type: "img",
-      description: "description XD",
-    });
-
-    // payload = {name: cardName, listName: listName, id: '1a', type: 'img', description: 'description 8', chosen: false, selected: false}
-
-    dispatch({ type: ADD_CARD, payload });
+    
+      setInitialState(current => 
+         current.map(obj => {          
+                  if (obj.listName === listName) {
+                    return { cardGroup: [...obj.cardGroup, ...newCard],
+                             listName: obj.listName, 
+                            _id: obj._id } ;
+                  }
+                  return obj;
+                }));
   };
 
   return (
     <>
       <section className="wrapper-container">
         <section className="container-trello">
-          {infoTrello.columnList.map((column) => (
+          {initialState  && initialState.map((column) => (
             <List
               key={column._id}
               currentGroup={column.cardGroup}
